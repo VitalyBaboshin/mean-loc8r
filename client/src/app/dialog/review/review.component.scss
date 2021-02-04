@@ -1,0 +1,30 @@
+mat-dialog-content{
+  color: #26a69a;
+}
+.select{
+  width: unset;
+}
+mat-select {
+  width: 45px;
+  border-radius: 3px;
+}
+
+mat-label,
+textarea {
+  border-radius: 3px;
+}
+
+td {
+  padding: 0 15px 0 0 ;
+}
+th {
+  padding: 0;
+}
+tr {
+   border-bottom: none;
+}
+.title{
+  font-family: 'Lobster Two', cursive;
+  font-size: 24px;
+  margin-top: 0;
+}

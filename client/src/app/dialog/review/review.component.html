@@ -1,0 +1,49 @@
+<mat-dialog-content style="display: flex; flex-direction: column; margin-bottom: 10px">
+
+    <p class="title" style="margin-bottom: 10px">{{dialogTitle}}</p>
+
+  <table>
+    <tbody>
+    <tr>
+      <td style="vertical-align: baseline;">
+        <p>Rating</p>
+      </td>
+      <td>
+        <mat-form-field appearance="outline" class="select">
+
+          <mat-select [(ngModel)]="selectedValue" name="food">
+            <mat-option *ngFor="let star of stars" [value]="star" >
+              {{star}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: baseline;">
+        <p>Review</p>
+      </td>
+      <td>
+        <mat-form-field appearance="outline">
+          <mat-label>Input text</mat-label>
+          <textarea matInput [(ngModel)]="text"></textarea>
+        </mat-form-field>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</mat-dialog-content>
+
+
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-button mat-dialog-close>Cancel</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-raised-button
+          mat-button
+          style="background-color: #ee6e73"
+          (click)="saveReview()"
+          [disabled]="!selectedValue || !text"
+  >Submit review</button>
+</mat-dialog-actions>
