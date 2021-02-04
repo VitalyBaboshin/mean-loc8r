@@ -1,0 +1,63 @@
+small{
+  font-weight: normal;
+  line-height: 1;
+  color: #bbbbbb;
+  font-size: 24px;
+}
+
+.input-field label,
+.materialize-textarea {
+  color: #fff;
+}
+
+.facilities span.badge:first-child{
+  margin-left: 0;
+}
+
+.card {
+  border-radius: 0.25rem;
+}
+
+.card-content{
+  padding: 14px;
+}
+.card-content p{
+  padding-right: 10px;
+}
+.title{
+  display: flex;
+}
+.title-text{
+  font-family: 'Lobster Two', cursive;
+  font-size: 28px;
+}
+.badge-pill{
+  height: 32px;
+  font-family: 'Lobster Two', cursive;
+  font-size: 22px;
+  padding: .25em .6em .4em .6em;
+  vertical-align: baseline;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  border-radius: 10rem;
+  background-color: #ad1d28;
+  border-color: #911821;
+  color: #fff;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.address {
+  font-size: 18px;
+  padding-bottom: 12px;
+}
+.facilities {
+  height: 24px;
+}
+.facilities .badge {
+  font-size: 16px;
+  color: #000;
+  border-radius: .25rem;
+}
+

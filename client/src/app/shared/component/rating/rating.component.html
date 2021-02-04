@@ -1,0 +1,50 @@
+<div class="title-rating">
+  <i *ngIf="rating>0.75; else star05" class="material-icons">star</i>
+  <ng-template #star05>
+    <i *ngIf="rating>0.25; else star00" class="material-icons">star_half</i>
+  </ng-template>
+  <ng-template #star00>
+    <i class="material-icons">star_border</i>
+  </ng-template>
+
+
+  <i *ngIf="rating>1.75; else star15" class="material-icons">star</i>
+  <ng-template #star15>
+    <i *ngIf="rating>1.25; else star10" class="material-icons">star_half</i>
+  </ng-template>
+  <ng-template #star10>
+    <i class="material-icons">star_border</i>
+  </ng-template>
+
+
+
+  <i *ngIf="rating>2.75; else star25" class="material-icons">star</i>
+  <ng-template #star25>
+    <i *ngIf="rating>2.25; else star20" class="material-icons">star_half</i>
+  </ng-template>
+  <ng-template #star20>
+    <i class="material-icons">star_border</i>
+  </ng-template>
+
+
+
+  <i *ngIf="rating>3.75; else star35" class="material-icons">star</i>
+  <ng-template #star35>
+    <i *ngIf="rating>3.25; else star30" class="material-icons">star_half</i>
+  </ng-template>
+  <ng-template #star30>
+    <i class="material-icons">star_border</i>
+  </ng-template>
+
+
+
+
+  <i *ngIf="rating>4.75; else star45" class="material-icons">star</i>
+  <ng-template #star45>
+    <i *ngIf="rating>4.25; else star40" class="material-icons">star_half</i>
+  </ng-template>
+  <ng-template #star40>
+    <i class="material-icons">star_border</i>
+  </ng-template>
+</div>
+

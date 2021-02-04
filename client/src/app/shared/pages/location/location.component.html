@@ -1,0 +1,90 @@
+
+
+<h1 class="header-line" *ngIf="location">{{location.name}}</h1>
+<div>
+
+  <div class="row">
+
+    <div class="col s12 m12 l12 xl10">
+
+      <div class="row">
+        <div class="col s12 m12 l6">
+
+          <div *ngIf="location; else loading">
+            <button class="btn" (click)="openAddReview()">getLocation</button>
+            <app-rating [rating]=location.rating></app-rating>
+            <p class="address">{{location.address}}</p>
+
+            <ul class="card-block" *ngIf="location.openingTimes; else notOpeningHours">
+              <p class="p-title">Opening hours</p>
+              <li class="item ">Monday - Friday :7:00am - 7:00pm</li>
+              <li class="item ">Saturday :8:00am - 5:00pm</li>
+              <li class="item ">Sunday :closed</li>
+            </ul>
+            <ng-template #notOpeningHours>
+              <ul class="card-block">
+                <p class="p-title">Opening hours</p>
+                <li class="item ">Monday - Friday: unknown</li>
+                <li class="item ">Saturday: unknown</li>
+                <li class="item ">Sunday: unknown</li>
+              </ul>
+            </ng-template>
+
+            <div class="card-block" *ngIf="location.facilities; else notFacilities">
+              <p class="p-title">Facilities</p>
+              <div class="facilities">
+                <span class="badge yellow darken-2 left" *ngFor="let facility of location.facilities">{{facility}}</span>
+              </div>
+            </div>
+            <ng-template #notFacilities>
+              <div class="card-block">
+                <p class="p-title">Facilities</p>
+                <p> empty </p>
+              </div>
+            </ng-template>
+
+          </div>
+          <ng-template #loading><app-loader></app-loader></ng-template>
+
+
+
+        </div>
+
+        <div class="col s12 m12 l6">
+          <div class="card-block">
+            <p>map</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-block ">
+        <div class="card-review">
+          <p class="p-title">Customer reviews</p>
+          <button class="btn red darken-4">Add review</button>
+        </div>
+
+        <div *ngIf="location; else loading" style="display: flex; flex-direction: column-reverse;">
+          <div class="review" *ngFor="let review of location.reviews">
+            <div class="review-rating">
+              <app-rating [rating]=review.rating style="align-self: center;"></app-rating>
+              <p class="review-title__text">{{review.author}}</p>
+              <p class="date-text">{{review.createdOn | date}}</p>
+            </div>
+            <p class="review-text">{{review.reviewText}}</p>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <div class="col s12 m12 l12 xl2">
+      <p class="lead ng-binding xl">Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.</p>
+    </div>
+  </div>
+
+
+
+</div>

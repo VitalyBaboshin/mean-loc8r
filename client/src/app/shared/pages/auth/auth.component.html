@@ -1,0 +1,46 @@
+<div>
+  <h1 class="header-line">Sign in to Loc8r</h1>
+  <p class="lead">Not a member? Please
+    <a routerLink="/register">register</a> first.</p>
+
+
+  <form
+    [formGroup] = "form"
+  >
+
+      <div class="row">
+        <div class="input-field col s12 m7 l6 xl5" >
+          <input
+            formControlName="email"
+            placeholder="Введите email"
+            id="email"
+            type="text"
+            name="email"
+          />
+          <label for="email" >Email</label>
+        </div>
+
+        <div class="input-field col s12 m7 l6 xl5">
+          <input
+            placeholder="Введите пароль"
+            formControlName="password"
+            id="password"
+            type="password"
+            name="password"
+          />
+          <label for="password">Пароль</label>
+        </div>
+
+      </div>
+
+
+      <button
+        class="btn teal lighten-2 btn-size"
+        [disabled]="form.invalid || form.disabled"
+        (click)="onLogin()"
+      >
+        Register
+      </button>
+
+  </form>
+</div>

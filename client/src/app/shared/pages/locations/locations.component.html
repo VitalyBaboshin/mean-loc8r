@@ -1,0 +1,74 @@
+<div>
+  <h1 class="header-line">Loc8r<small> Find places to work with wifi near you!</small></h1>
+
+  <div class="row">
+
+    <div class="col s12 m8 l8 ">
+      <div class="input-field col s12 m10 l18">
+        <textarea id="textarea1" class="materialize-textarea" ngModel=""></textarea>
+        <label for="textarea1">Отфильтровать результаты</label>
+      </div>
+      <div class="row list-group">
+        <!-- ngRepeat: location in vm.data.locations | filter : textFilter -->
+      </div>
+
+
+      <div class="row">
+        <div class="col s12 m12">
+          <div class="card cyan darken-1" (click)="openLocation()">
+            <div class="card-content white-text">
+              <div class="title">
+                <p class="title-text">Card Title</p>
+
+                  <span class="badge badge-pill">100m</span>
+              </div>
+              <p class="address">125 High Street, Reading, RG6 1PS</p>
+              <div class="facilities">
+                <span class="badge yellow darken-2 left">Hot drinks</span>
+                <span class="badge yellow darken-2 left">Food</span>
+                <span class="badge yellow darken-2 left">Premium wifi</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <button class="btn" (click)="createLocation()">создать</button>
+          <button class="btn" (click)="getAllLocation()">getAll</button>
+          <button class="btn" (click)="getLocation()">getLocation</button>
+
+          <div *ngIf="locations; else loading">
+            <div *ngIf="!locations.length else dataLocation"><p>Нет локаций</p></div>
+            <ng-template #dataLocation>
+              <div class="card cyan darken-1" *ngFor="let location of locations">
+                <div class="card-content white-text">
+                  <div class="title">
+                    <p class="title-text">{{location.name}}</p>
+                    <app-rating [rating] = location.rating></app-rating>
+                    <span class="badge badge-pill">100m</span>
+                  </div>
+                  <p class="address">{{location.address}}</p>
+
+                  <div *ngIf="location.facilities.length">
+                    <div class="facilities" >
+                      <span *ngFor="let facility of location.facilities" class="badge yellow darken-2 left">{{facility}}s</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+          <ng-template #loading>Идет загрузка</ng-template>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div class="col s12 m4 l4">
+      <p class="lead ng-binding xl">Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.</p>
+    </div>
+
+  </div>
+</div>
