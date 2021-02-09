@@ -1,0 +1,14 @@
+
+  <div id="map"
+       leaflet
+       *ngIf="enableDraw"
+       (leafletMapReady)="initializeMap($event)"
+       [leafletOptions]="options"
+       (leafletClick)="onMapClick($event)">
+  </div>
+
+
+
+
+
+
