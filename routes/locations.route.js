@@ -1,25 +1,21 @@
 const {Router} = require('express')
 const router = Router();
-const Loc = require('../models/Location')
+const {location: locationSchema, openingTime: openingTimeSchema} = require('../models/Location')
 
 // /api/locations Создание нового местоположения необходим auth (проверяем токен в опциях запроса из миддлвеера))
 router.post('/', async(req, res) => {
     try{
 
-        const {name, address, facilities, rating} = req.body;
-        console.log('body: ', req.body)
-
-        const newlocation = new Loc({
-            name, address, facilities, rating
+        const {name, address, facilities, rating, reviews, openingTimes, coords} = req.body;
+        // console.log(...openingTime)
+        const newlocation = new locationSchema({
+            name, address, facilities, rating, reviews, coords, openingTimes
         })
 
-        try {
-            await newlocation.save();
-        } catch (e) {
-            console.log(e._message)
-        }
-        console.log('create location: ', name, "звезд: ", rating)
-        res.status(201).json({ newlocation })
+
+        res.status(201).json({ message: 'Create new location' })
+        await newlocation.save();
+        console.log('create new location')
 
     }catch (e) {
         res.status(500).json({message: 'Internal server error -- create location'})
@@ -29,7 +25,9 @@ router.post('/', async(req, res) => {
 // /api/locations Чтение списка местоположений
 router.get('/', async(req, res) => {
     try{
-        const locations = await Loc.find(err => {
+
+        
+        const locations = await locationSchema.find(err => {
             if (err) {
                 console.log('err findAllLocation:', err.CastError)
             }
@@ -45,7 +43,7 @@ router.get('/', async(req, res) => {
 router.get('/:id', async (req, res) => {
     try{
 
-         const location = await Loc.findById(req.params.id, (err) => {
+         const location = await locationSchema.findById(req.params.id, (err) => {
             if (err) {
                 console.log('err findById:', err.CastError)
             }
@@ -68,7 +66,7 @@ router.post('/:id/reviews', async (req, res) => {
         console.log('Create new review')
         const {rating, reviewText, author} = req.body;
 
-        let locationForReview = await Loc.findById(req.params.id).select(['rating', 'reviews']) ;
+        let locationForReview = await locationSchema.findById(req.params.id).select(['rating', 'reviews']) ;
 
         locationForReview.reviews.push({
             author, rating, reviewText
@@ -90,4 +88,36 @@ router.post('/:id/reviews', async (req, res) => {
         res.status(500).json({message: 'Internal server error -- get location id'})
     }
 })
+// api/locations Создание координат для локации
+router.post('/:id/coords', async (req, res) => {
+    try{
+        console.log('Create new coords')
+        const coord = req.body;
+        console.log(coord)
+        let locationForCoord = await locationSchema.findById(req.params.id).select(['coords']) ;
+        console.log(locationForCoord)
+        try  {
+            locationForCoord.coords = coord
+        }catch (e) {
+            console.log(e.message)
+        }
+
+        console.log(locationForCoord)
+        // let updateAverageRating = function (totalRating, length, rating) {
+        //     console.log(totalRating, length, rating)
+        //     return (totalRating*(length-1) + rating)/length;
+        // }
+
+        await locationForCoord.save( '', err => {
+            if (err) {
+                res.status(404).json({message: 'location not save'})
+            }
+        })
+
+        res.json(locationForCoord.coords)
+    } catch (e) {
+        res.status(500).json({message: 'Internal server error -- get location id'})
+    }
+})
+
 module.exports = router
