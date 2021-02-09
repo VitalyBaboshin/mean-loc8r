@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +21,11 @@ import { LoaderComponent } from './shared/component/loader/loader.component';
 import { FooterComponent } from './shared/component/footer/footer.component';
 import { RegisterComponent } from './shared/pages/register/register.component';
 import { RatingComponent } from './shared/component/rating/rating.component';
+import { MapComponent } from './shared/component/map/map.component';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import { CreateLocationComponent } from './shared/pages/create-location/create-location.component';
+import { MapNewComponent } from './shared/component/map-new/map-new.component';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +39,10 @@ import { RatingComponent } from './shared/component/rating/rating.component';
     LoaderComponent,
     FooterComponent,
     RegisterComponent,
-    RatingComponent
+    RatingComponent,
+    MapComponent,
+    CreateLocationComponent,
+    MapNewComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +55,9 @@ import { RatingComponent } from './shared/component/rating/rating.component';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    LeafletModule
+
   ],
   providers: [],
   entryComponents: [
