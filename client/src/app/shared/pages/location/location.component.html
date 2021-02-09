@@ -11,22 +11,26 @@
         <div class="col s12 m12 l6">
 
           <div *ngIf="location; else loading">
-            <button class="btn" (click)="openAddReview()">getLocation</button>
             <app-rating [rating]=location.rating></app-rating>
             <p class="address">{{location.address}}</p>
 
-            <ul class="card-block" *ngIf="location.openingTimes; else notOpeningHours">
+            <ul class="card-block" *ngIf="location.openingTimes.length>0; else notOpeningHours">
               <p class="p-title">Opening hours</p>
-              <li class="item ">Monday - Friday :7:00am - 7:00pm</li>
-              <li class="item ">Saturday :8:00am - 5:00pm</li>
-              <li class="item ">Sunday :closed</li>
+              <li class="item " *ngFor="let time of location.openingTimes" >
+                <div *ngIf="time.closed; else refTime" >
+                  {{time.days}}: {{time.opening}} - {{time.closing}}
+                </div>
+                <ng-template #refTime>
+                  {{time.days}}: closed
+                </ng-template>
+              </li>
             </ul>
             <ng-template #notOpeningHours>
               <ul class="card-block">
                 <p class="p-title">Opening hours</p>
-                <li class="item ">Monday - Friday: unknown</li>
-                <li class="item ">Saturday: unknown</li>
-                <li class="item ">Sunday: unknown</li>
+                <li class="item ">Monday - Friday: close</li>
+                <li class="item ">Saturday: close</li>
+                <li class="item ">Sunday: close</li>
               </ul>
             </ng-template>
 
@@ -52,7 +56,8 @@
 
         <div class="col s12 m12 l6">
           <div class="card-block">
-            <p>map</p>
+            <p class="p-title">Location map</p>
+            <app-map *ngIf="isDataAvailable" [coords]="locCoords"></app-map>
           </div>
         </div>
 
@@ -61,7 +66,7 @@
       <div class="card-block ">
         <div class="card-review">
           <p class="p-title">Customer reviews</p>
-          <button class="btn red darken-4">Add review</button>
+          <button class="btn red darken-4" (click)="openAddReview()">Add review</button>
         </div>
 
         <div *ngIf="location; else loading" style="display: flex; flex-direction: column-reverse;">

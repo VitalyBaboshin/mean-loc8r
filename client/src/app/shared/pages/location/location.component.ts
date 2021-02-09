@@ -1,36 +1,51 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpService} from "../../../services/http.service";
-import {MatDialog} from "@angular/material/dialog";
-import {ReviewComponent} from "../../../dialog/review/review.component";
-import {AuthServices} from "../../../services/auth.services";
-import {Location} from "../../../services/interfaces";
+import {HttpService} from '../../../services/http.service';
+import {MatDialog} from '@angular/material/dialog';
+import {ReviewComponent} from '../../../dialog/review/review.component';
+import {AuthServices} from '../../../services/auth.services';
+import {Location, OpeningTime} from '../../../services/interfaces';
+import {ActivatedRoute, Router} from '@angular/router';
+import * as M from 'materialize-css';
+
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss']
 })
 export class LocationComponent implements OnInit {
-  location: Location ;
+  locationId: string;
+  location: Location;
+  locCoords: [number];
+  isDataAvailable = false;
 
   constructor(private http: HttpService,
               private dialog: MatDialog,
-              private auth: AuthServices) { }
-
-  ngOnInit(): void {
-    this.http.getLocation('601977a5ce2e1928b08b0e6a').subscribe(location => {
+              private auth: AuthServices,
+              private route: ActivatedRoute,
+              private router: Router) {
+    this.locationId = this.route.snapshot.params.id;
+    this.http.getLocation(this.locationId).subscribe(location => {
       this.location = location;
-      console.log(this.location)
+      this.locCoords = location.coords;
+      this.isDataAvailable = true;
+    }, error => {
+      console.log(error);
+      M.toast({html: 'Не удалось загрузить локацию'}, );
+      this.router.navigate([`/`]);
     });
 
+  }
+
+  ngOnInit(): void {
     navigator.geolocation.getCurrentPosition(data => {
-      console.log(data.coords.latitude, data.coords.longitude)
-    })
+      console.log(data.coords.latitude, data.coords.longitude);
+    });
   }
 
   openAddReview() {
     const dialogRef = this.dialog.open(
       ReviewComponent,
-      {data: this.location.name})
+      {data: this.location.name});
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -38,13 +53,11 @@ export class LocationComponent implements OnInit {
           .subscribe(
           data => {
             this.location.reviews.push(data);
-            console.log(this.location)
+            console.log(this.location);
           }
-        )
+        );
       }
-    })
+    });
   }
-
-
 
 }
