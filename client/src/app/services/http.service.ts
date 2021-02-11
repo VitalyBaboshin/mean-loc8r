@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, timer} from 'rxjs';
 
 import {mergeMap} from 'rxjs/operators';
@@ -35,6 +35,12 @@ export class HttpService {
   //
   public getAllLocations(): Observable<any> {
     return this.http.get(`${this.URL_API}`);
+  }
+  public getAllLocationsParams(latitude: string, longitude: string): Observable<any> {
+    const params = new HttpParams()
+      .set('latitude', latitude)
+      .set('longitude', longitude);
+    return this.http.get(`${this.URL_API}`, {params});
   }
   public createReview(locationId: string, review: any): Observable<any> {
     return this.http.post(`${this.URL_API}/${locationId}/reviews`, review);
