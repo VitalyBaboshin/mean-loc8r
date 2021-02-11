@@ -1,10 +1,11 @@
 
 <nav class="navbar-default">
   <div class="nav-wrapper container">
+
     <a routerLink="/" class="brand-logo navbar-brand">Loc8r</a>
     <ul id="nav-mobile" class="right link-size">
 
-      <li routerLinkActive="active">
+      <li routerLinkActive="active" class="about-nodropdown">
         <a routerLink="/about">About</a>
       </li>
 
@@ -22,7 +23,15 @@
           <i class="material-icons right">arrow_drop_down</i>
         </a>
         <ul id="dropdown1" class="dropdown-content">
-          <li><a routerLink="/location/new">New location</a></li>
+          <li class="dropdown-visible">
+            <a routerLink="/">Home</a>
+          </li>
+          <li class="dropdown-visible">
+            <a routerLink="/about">About</a>
+          </li>
+          <li>
+            <a routerLink="/location/new">New location</a>
+          </li>
           <li>
             <a (click)="logOut()">Log out</a>
           </li>
@@ -30,11 +39,6 @@
       </li>
 
     </ul>
-<!--    <button mat-button [matMenuTriggerFor]="menu">Menu</button>-->
-<!--    <mat-menu #menu="matMenu">-->
-<!--      <button mat-menu-item>Item 1</button>-->
-<!--      <button mat-menu-item>Item 2</button>-->
-<!--    </mat-menu>-->
 
   </div>
 </nav>

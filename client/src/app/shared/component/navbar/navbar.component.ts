@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit{
   @ViewChild('dropdown', {static: true}) elem: ElementRef;
 
   userName: string;
-
+  status: boolean = false;
 
   constructor(private auth: AuthServices,
               private router: Router) {

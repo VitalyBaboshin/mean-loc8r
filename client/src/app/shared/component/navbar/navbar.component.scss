@@ -1,3 +1,6 @@
+.brand-logo {
+  display: block;
+}
 .navbar-default{
   background-color: #ad1d28;
   border-color: #911821;
@@ -27,4 +30,21 @@
   white-space: nowrap;
   direction: ltr;
   vertical-align: text-top;
+}
+
+.dropdown-visible {
+  display: none;
+}
+
+
+@media (max-width: 600px){
+  .brand-logo {
+    display: none;
+  }
+  .about-nodropdown{
+    display: none;
+  }
+  .dropdown-visible {
+    display: block;
+  }
 }
