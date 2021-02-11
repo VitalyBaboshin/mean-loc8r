@@ -61,11 +61,89 @@ p.review-title__text{
   font-size: 1.25rem;
 }
 .facilities {
-  height: 24px;
   margin-bottom: 1rem;
 }
 .facilities .badge {
   font-size: 16px;
   color: #000;
   border-radius: .25rem;
+}
+
+
+.list-group-item{
+  display: flex;
+  padding: .75rem 1.25rem;
+  border: 1px solid rgba(0,0,0,.125)
+}
+.list-group__title{
+  min-width: 200px;
+  padding-right: 15px;
+}
+.list-group__body {
+  position: relative;
+}
+.list-group__body small {
+  position: absolute;
+  bottom: 0;
+  width: max-content;
+}
+.list-group__body p {
+  margin-top: 21px;
+  font-size: 16px;
+}
+
+.mb-1{
+  margin-bottom: .25rem!important;
+}
+.facilities{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.facilities span.badge {
+  float: none;
+  white-space: nowrap ;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 600px) {
+  .list-group-item{
+    display: block;
+  }
+
+  .list-group__title {
+    display: flex;
+    justify-content: space-between;
+  }
+  .list-group {
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+  .list-group__body {
+    position: inherit;
+  }
+  .list-group__body small {
+    position: inherit;
+  }
+  p.mb-1 {
+    margin-top: 10px !important;
+  }
+
+
+  h5.mb-1 {
+    font-size: 1.25rem;
+  }
+  p.address {
+    margin: 0;
+  }
+  li.item{
+    font-size: 1.15rem;
+  }
+  .review-title__text{
+    font-size: unset;
+  }
+  .review-text {
+    margin: 10px;
+  }
 }

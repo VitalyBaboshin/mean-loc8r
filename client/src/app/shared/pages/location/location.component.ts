@@ -17,12 +17,15 @@ export class LocationComponent implements OnInit {
   location: Location;
   locCoords: [number];
   isDataAvailable = false;
+  isAuth;
 
   constructor(private http: HttpService,
               private dialog: MatDialog,
               private auth: AuthServices,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router) {}
+
+  ngOnInit(): void {
     this.locationId = this.route.snapshot.params.id;
     this.http.getLocation(this.locationId).subscribe(location => {
       this.location = location;
@@ -33,13 +36,7 @@ export class LocationComponent implements OnInit {
       M.toast({html: 'Не удалось загрузить локацию'}, );
       this.router.navigate([`/`]);
     });
-
-  }
-
-  ngOnInit(): void {
-    navigator.geolocation.getCurrentPosition(data => {
-      console.log(data.coords.latitude, data.coords.longitude);
-    });
+    this.isAuth = this.auth.isAuthenticated();
   }
 
   openAddReview() {
@@ -51,11 +48,10 @@ export class LocationComponent implements OnInit {
       if (result) {
         this.http.createReview(this.location._id, {rating: result[0], reviewText: result[1], author: this.auth.getName()})
           .subscribe(
-          data => {
-            this.location.reviews.push(data);
-            console.log(this.location);
-          }
-        );
+            data => {
+              this.location.reviews.push(data);
+            }
+          );
       }
     });
   }

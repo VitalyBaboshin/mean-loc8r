@@ -5,42 +5,42 @@
 
 
   <form [formGroup] = "form">
-      <div class="row">
-        <div class="input-field col s12 m7 l6 xl5" >
-          <input
-            formControlName="name"
-            placeholder="Введите имя"
-            id="name"
-            type="text"
-            name="name"
-          />
-          <label for="email" >Email</label>
-        </div>
+    <div class="row">
+      <div class="input-field col s12 m7 l6 xl5" >
+        <input
+          formControlName="name"
+          placeholder="Введите имя"
+          id="name"
+          type="text"
+          name="name"
+        />
+        <label for="email" >Name</label>
       </div>
-      <div class="row">
-        <div class="input-field col s12 m7 l6 xl5" >
-          <input
-            formControlName="email"
-            placeholder="Введите email"
-            id="email"
-            type="text"
-            name="email"
-          />
-          <label for="email" >Email</label>
-        </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m7 l6 xl5" >
+        <input
+          formControlName="email"
+          placeholder="Введите email"
+          id="email"
+          type="text"
+          name="email"
+        />
+        <label for="email" >Email</label>
       </div>
-      <div class="row">
-        <div class="input-field col s12 m7 l6 xl5" >
-          <input
-            formControlName="password"
-            placeholder="Введите password"
-            id="password"
-            type="password"
-            name="password"
-          />
-          <label for="email" >Email</label>
-        </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m7 l6 xl5" >
+        <input
+          formControlName="password"
+          placeholder="Введите password"
+          id="password"
+          type="password"
+          name="password"
+        />
+        <label for="email" >Password</label>
       </div>
+    </div>
     <button
       class="btn teal lighten-2 btn-size"
       [disabled]="form.invalid || form.disabled"

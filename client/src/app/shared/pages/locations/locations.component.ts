@@ -5,6 +5,8 @@ import {HttpService} from '../../../services/http.service';
 import {Location} from '../../../services/interfaces';
 import {Router} from '@angular/router';
 import {LocationService} from '../../../services/location.service';
+import {MapPoint} from '../../../models/map-point.model';
+
 @Component({
   selector: 'app-locations',
   templateUrl: './locations.component.html',
@@ -13,30 +15,40 @@ import {LocationService} from '../../../services/location.service';
 export class LocationsComponent implements OnInit {
 
   isAuth: boolean;
-  locations: [Location];
+  locations: Location[] = [];
   locCoords: [number, number];
+  searchStr = '';
 
   constructor(private auth: AuthServices,
               private http: HttpService,
               private router: Router,
-              private locationService: LocationService) {
-    this.isAuth = this.auth.isAuthenticated();
+              private locationService: LocationService) {}
+
+  ngOnInit(): void {
     navigator.geolocation.getCurrentPosition(data => {
-      console.log(data.coords.latitude, data.coords.longitude);
-      this.locCoords = [data.coords.latitude, data.coords.longitude];
+      const devicePoint: MapPoint = {latitude: data.coords.latitude, longitude: data.coords.longitude };
+      this.locationService.MapPoint = devicePoint;
+      this.locationService.MapPoint.longitude = data.coords.longitude;
       this.locationService.setStateLocation(true);
-      console.log('this.locationService.getStateLocation()', this.locationService.getStateLocation());
+      this.http.getAllLocationsParams(
+        this.locationService.MapPoint.longitude.toString(),
+        this.locationService.MapPoint.latitude.toString()
+      ).subscribe(locations => {
+        this.locations = locations;
+      });
+
     }, (error) => {
       if (error.PERMISSION_DENIED) {
         M.toast({html: 'Для доступа ко всему функционалу приложения включите геолокацию и перезапустите'}, );
         this.locationService.setStateLocation(false);
-        console.log('this.locationService.getStateLocation()', this.locationService.getStateLocation());
       }
-    });
-  }
+      this.locationService.MapPoint = this.locationService.mapPointDefault;
 
-  ngOnInit(): void {
-    this.http.getAllLocations().subscribe(locations => {
+    });
+    this.http.getAllLocationsParams(
+      this.locationService.MapPoint.longitude.toString(),
+      this.locationService.MapPoint.latitude.toString()
+    ).subscribe(locations => {
       this.locations = locations;
     });
     M.updateTextFields();
@@ -46,11 +58,10 @@ export class LocationsComponent implements OnInit {
   openLocation(id: string) {
     this.router.navigate([`/location/${id}`]);
     // this.http.getLocation(id).subscribe();
-    console.log(id);
+
   }
 
   createLocation() {
-    console.log('createlocation');
     this.http.create({
       name: 'you-tube',
       address: 'street 1 land',
@@ -59,12 +70,16 @@ export class LocationsComponent implements OnInit {
   }
 
   getAllLocation() {
-    console.log('getAll');
     this.http.getAllLocations().subscribe();
   }
 
   getLocation() {
     this.http.getLocation('601977a5ce2e1928b08b0e6a').subscribe();
+  }
+
+  getLocationGeo() {
+    this.http.getAllLocationsParams(
+      this.locationService.MapPoint.longitude.toString(), this.locationService.MapPoint.latitude.toString()).subscribe();
   }
 }
 

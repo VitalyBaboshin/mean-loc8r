@@ -36,9 +36,10 @@
 
             <div class="card-block" *ngIf="location.facilities; else notFacilities">
               <p class="p-title">Facilities</p>
-              <div class="facilities">
-                <span class="badge yellow darken-2 left" *ngFor="let facility of location.facilities">{{facility}}</span>
-              </div>
+              <p class="facilities" >
+                <span *ngFor="let facility of location.facilities" class="badge yellow darken-2">{{facility}}</span>
+              </p>
+
             </div>
             <ng-template #notFacilities>
               <div class="card-block">
@@ -66,21 +67,34 @@
       <div class="card-block ">
         <div class="card-review">
           <p class="p-title">Customer reviews</p>
-          <button class="btn red darken-4" (click)="openAddReview()">Add review</button>
+          <button class="btn red darken-4" (click)="openAddReview()" *ngIf="isAuth">Add review</button>
+          <button class="btn red darken-4" routerLink="/auth" *ngIf="!isAuth">Login to add review</button>
         </div>
 
-        <div *ngIf="location; else loading" style="display: flex; flex-direction: column-reverse;">
-          <div class="review" *ngFor="let review of location.reviews">
-            <div class="review-rating">
+        <!--        <div *ngIf="location; else loading" style="display: flex; flex-direction: column-reverse;">-->
+        <!--          <div class="review" *ngFor="let review of location.reviews">-->
+        <!--            <div class="review-rating">-->
+        <!--              <app-rating [rating]=review.rating style="align-self: center;"></app-rating>-->
+        <!--              <p class="review-title__text">{{review.author}}</p>-->
+        <!--              <p class="date-text">{{review.createdOn | date}}</p>-->
+        <!--            </div>-->
+        <!--            <p class="review-text">{{review.reviewText}}</p>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <div class="list-group" *ngIf="location; else loading">
+          <div class="list-group-item " *ngFor="let review of location.reviews">
+            <div class="list-group__title">
+              <h5 class="mb-1">{{review.author}}</h5>
               <app-rating [rating]=review.rating style="align-self: center;"></app-rating>
-              <p class="review-title__text">{{review.author}}</p>
-              <p class="date-text">{{review.createdOn | date}}</p>
             </div>
-            <p class="review-text">{{review.reviewText}}</p>
+            <div class="list-group__body">
+              <p class="mb-1">{{review.reviewText}}</p>
+              <small>{{review.createdOn | date}}</small>
+            </div>
+
           </div>
         </div>
-
-
 
       </div>
     </div>

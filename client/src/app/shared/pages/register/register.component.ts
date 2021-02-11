@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import * as M from 'materialize-css';
 import {AuthServices} from "../../../services/auth.services";
 import {Router} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   form: FormGroup;
+  subLogin: Subscription;
   constructor(private auth: AuthServices,
               private router: Router) {
   }
@@ -28,18 +30,27 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister() {
-    this.auth.register(this.form.value).subscribe(((data) => {
+    this.subLogin = this.auth.register(this.form.value).subscribe(((data) => {
 
-      M.toast({html: data.body.message})
-      if (data.status === 201) {
-        this.auth.login(this.form.value).subscribe();
-        this.router.navigate(['/']);
+        M.toast({html: data.body.message})
+        if (data.status === 201) {
+          this.auth.login(this.form.value).subscribe();
+          this.router.navigate(['/']);
+        }
+      }),
+      error => {
+        M.toast({html: error.error.message});
+        this.form.reset();
       }
-    }),
-      error => M.toast({html: error.error.message})
-      )
+    );
   }
 
+  ngOnDestroy(): void {
+    if (this.subLogin) {
+      this.subLogin.unsubscribe();
+    }
+
+  }
 
 
 }
