@@ -1,5 +1,5 @@
 {
-  "port": 4400,
+  "port": 4300,
   "jwtSecret": "vitaly mean",
   "mongoUri": "mongodb+srv://vitaliy:123123123@cluster0.4sw44.mongodb.net/app?retryWrites=true&w=majority"
 }
