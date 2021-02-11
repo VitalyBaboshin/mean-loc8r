@@ -15,7 +15,7 @@ app.use('/api/admin', require('./routes/admin.routes'))
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/locations', require('./routes/locations.route'));
 
-const PORT = config.get('port') || 4400;
+const PORT = config.get('port') || 4300;
 
 async function start() {
     try {
