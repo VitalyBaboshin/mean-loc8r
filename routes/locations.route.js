@@ -1,23 +1,31 @@
 const {Router} = require('express')
 const router = Router();
+
 const {location: locationSchema, openingTime: openingTimeSchema} = require('../models/Location')
+const auth = require('../middleware/auth.middleware')
+
 
 // /api/locations Создание нового местоположения необходим auth (проверяем токен в опциях запроса из миддлвеера))
-router.post('/', async(req, res) => {
+router.post('/', auth, async(req, res) => {
     try{
 
+
         const {name, address, facilities, rating, reviews, openingTimes, coords} = req.body;
-        // console.log(...openingTime)
+
         const newlocation = new locationSchema({
-            name, address, facilities, rating, reviews, coords, openingTimes
+            name, address, facilities, rating, reviews, openingTimes, coords : coords.reverse()
         })
 
 
-        res.status(201).json({ message: 'Create new location' })
-        await newlocation.save();
-        console.log('create new location')
 
-    }catch (e) {
+
+
+        await newlocation.save();
+        res.status(201).json({ message: 'Create new location' })
+
+    }
+
+    catch (e) {
         res.status(500).json({message: 'Internal server error -- create location'})
     }
 })
@@ -26,13 +34,49 @@ router.post('/', async(req, res) => {
 router.get('/', async(req, res) => {
     try{
 
-        
-        const locations = await locationSchema.find(err => {
+        // если в запросе были были переданы параметры координат где находится сейчас устройство, то передаем только ближайшие локации
+        // Иначе находим все локации и передаем
+        const querry = req.query
+        if (querry.hasOwnProperty('latitude') && querry.hasOwnProperty('longitude')) {
+            const latitude = querry.latitude;
+            const longitude = querry.longitude;
+            console.log('lon: ', longitude, 'lat: ', latitude )
+
+            const locationsGeo = await locationSchema.aggregate([
+                {
+                    $geoNear: {
+                        near: {type:'Point', coordinates:[parseFloat(latitude), parseFloat(longitude), ]},
+                        distanceField: 'dist',
+                        maxDistance: 30000,
+                    },
+                }
+            ])
+
+            locationsGeo.forEach(elem => {
+                elem.coords = elem.coords.reverse()
+            })
+
+            return  res.json(locationsGeo);
+
+        } else {
+
+            const locations = await locationSchema.find()
+
+            locations.forEach(elem => {
+                elem.coords = elem.coords.reverse()
+            })
+
+            res.status(200).json(locations);
+        }
+
+
+        const locations = await Loc.find(err => {
             if (err) {
                 console.log('err findAllLocation:', err.CastError)
             }
         })
         res.json(locations);
+
 
     } catch (e) {
         res.status(500).json({message: 'Internal server error -- get all location'})
@@ -43,17 +87,20 @@ router.get('/', async(req, res) => {
 router.get('/:id', async (req, res) => {
     try{
 
-         const location = await locationSchema.findById(req.params.id, (err) => {
+        const location = await locationSchema.findById(req.params.id, (err) => {
             if (err) {
                 console.log('err findById:', err.CastError)
             }
 
         });
+
         if(!location) {
-            res.status(404).json({message: 'location not found'})
-            return
+            return res.status(404).json({message: 'location not found'})
+
         }
-        res.json(location)
+
+        location.coords.reverse();
+        return res.status(200).json(location)
 
 
     } catch (e) {
@@ -61,7 +108,7 @@ router.get('/:id', async (req, res) => {
     }
 })
 //api/locations Создание нового отзыва
-router.post('/:id/reviews', async (req, res) => {
+router.post('/:id/reviews', auth, async (req, res) => {
     try{
         console.log('Create new review')
         const {rating, reviewText, author} = req.body;
@@ -88,6 +135,7 @@ router.post('/:id/reviews', async (req, res) => {
         res.status(500).json({message: 'Internal server error -- get location id'})
     }
 })
+
 // api/locations Создание координат для локации
 router.post('/:id/coords', async (req, res) => {
     try{
@@ -119,5 +167,4 @@ router.post('/:id/coords', async (req, res) => {
         res.status(500).json({message: 'Internal server error -- get location id'})
     }
 })
-
 module.exports = router
