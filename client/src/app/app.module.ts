@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +25,9 @@ import { MapComponent } from './shared/component/map/map.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import { CreateLocationComponent } from './shared/pages/create-location/create-location.component';
 import { MapNewComponent } from './shared/component/map-new/map-new.component';
+import {DistancePipe} from "./pipe/distance.pipe";
+import {SearchPipe} from "./pipe/search.pipe";
+import {TokenInterceptor} from "./services/classes/token.interceptor";
 
 
 @NgModule({
@@ -42,7 +45,9 @@ import { MapNewComponent } from './shared/component/map-new/map-new.component';
     RatingComponent,
     MapComponent,
     CreateLocationComponent,
-    MapNewComponent
+    MapNewComponent,
+    DistancePipe,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
@@ -59,7 +64,13 @@ import { MapNewComponent } from './shared/component/map-new/map-new.component';
     LeafletModule
 
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: TokenInterceptor
+    }
+  ],
   entryComponents: [
     ReviewComponent
   ],
