@@ -101,3 +101,41 @@ h1{
 //.mat-form-field-label {
 //  color: #fff!important;
 //}
+@media (max-width: 600px){
+  .container{
+    width: 94%;
+  }
+  .header-line {
+    font-size: 30px;
+  }
+  .p-title {
+    font-size: 1.25rem !important;
+    padding: 0.5rem!important;;
+  }
+  h1 {
+    margin-bottom: 0.68rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .list-group__title app-rating .title-rating i{
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 400px){
+  .header-line {
+    font-size: 26px;
+  }
+
+  app-rating {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .title app-rating .title-rating i{
+    font-size: 20px;
+  }
+  .list-group__title app-rating .title-rating i{
+    font-size: 16px;
+  }
+}
