@@ -11,7 +11,6 @@ import {LocationService} from '../../../services/location.service';
   styleUrls: ['./map-new.component.scss']
 })
 export class MapNewComponent implements OnInit {
-  mapPoint: MapPoint;
   map: Map;
   options: MapOptions;
   lastLayer: any;
@@ -24,11 +23,7 @@ export class MapNewComponent implements OnInit {
 
     // Проверяем включена ли геолокация на устройстве
     navigator.geolocation.getCurrentPosition(data => {
-      this.locationService.MapPoint = {latitude: data.coords.latitude, longitude: data.coords.longitude};
-      // this.mapPoint = {
-      //   latitude: data.coords.latitude,
-      //   longitude: data.coords.longitude
-      // };
+      this.locationService.mapPointCreate = {latitude: data.coords.latitude, longitude: data.coords.longitude};
       this.enableDraw = true;
       this.locationService.setStateLocation(true);
       this.initializeMapOptions();
@@ -60,11 +55,8 @@ export class MapNewComponent implements OnInit {
 
 // По дефолту координаты любимого города Санкт-Петербург
   private initializeDefaultMapPoint() {
-    this.locationService.MapPoint = {latitude: 59.94, longitude: 30.31};
-    // this.mapPoint = {
-    //   latitude: 59.94,
-    //   longitude: 30.31
-    // };
+    this.locationService.MapPointCreate = this.locationService.MapPointDefault;
+
   }
 
   initializeMap(map: Map) {
@@ -82,18 +74,14 @@ export class MapNewComponent implements OnInit {
     if (this.map.hasLayer(this.lastLayer)) { this.map.removeLayer(this.lastLayer); }
   }
   private updateMapPoint(latitude: number, longitude: number) {
-    this.locationService.MapPoint = {latitude, longitude};
-    // this.mapPoint = {
-    //   latitude,
-    //   longitude
-    // };
+    this.locationService.MapPointCreate = {latitude, longitude};
   }
   private createMarker() {
     this.clearMap();
     const mapIcon = this.getDefaultIcon();
     const coordinates = latLng(
-      [this.locationService.MapPoint.latitude,
-             this.locationService.MapPoint.longitude]);
+      [this.locationService.MapPointCreate.latitude,
+        this.locationService.MapPointCreate.longitude]);
     // const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
     this.lastLayer = marker(coordinates).setIcon(mapIcon).addTo(this.map);
     this.map.setView(coordinates, this.map.getZoom());
