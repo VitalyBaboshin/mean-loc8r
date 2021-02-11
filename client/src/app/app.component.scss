@@ -5,3 +5,20 @@ app-footer {
   //background-color: gray;
 }
 
+app-navbar{
+  top: 0;
+  width: 100%;
+  position: fixed;
+  z-index: 5000;
+}
+
+div {
+  margin-top: 75px;
+}
+
+@media (max-width: 600px) {
+  div {
+    margin-top: 65px;
+  }
+}
+
