@@ -16,7 +16,6 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.initializeMapOptions();
-    console.log('mapComponent Initialize: coords: ', this.coords);
   }
 
   private initializeMapOptions() {
