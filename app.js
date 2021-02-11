@@ -4,7 +4,7 @@ const express = require('express');
 const config = require('config');
 //Подключаем пакет mongoose что бы подключится к mongoDB
 const mongoose = require('mongoose');
-// const path = require('path');
+const path = require('path');
 
 //Переменная app результат работы функции express(), то есть это наш будущий сервер
 const app = express();
@@ -14,6 +14,14 @@ app.use(express.json({ extended: true}));
 app.use('/api/admin', require('./routes/admin.routes'))
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/locations', require('./routes/locations.route'));
+
+if (process.env.NODE_ENV === 'production') {
+    app.use('/', express.static(path.join(__dirname, 'client', 'build')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 const PORT = config.get('port') || 4300;
 

@@ -1,0 +1,6 @@
+{
+  "port": 4400,
+  "jwtSecret": "vitaly mean secret",
+  "mongoUri": "mongodb+srv://vitaliy:123123123@cluster0.4sw44.mongodb.net/app?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:4400"
+}
