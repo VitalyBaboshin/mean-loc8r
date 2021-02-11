@@ -1,364 +1,368 @@
-<div class="card-block" >
+<div class="card-block" style="margin-top: 10px">
   <p class="p-title">Location map</p>
   <app-map-new></app-map-new>
 </div>
 
-<div class="card-block" >
-  <div class="card-block__body">
-    <p class="p-title">Create facilities</p>
-    <form [formGroup] = "formCreateFacilities">
-      <div class="input-field" >
-        <input
-          formControlName="nameFacilities"
-          placeholder="Input name"
-          id="createFacilities"
-          type="text"
-          name="nameFacilities"
-        />
-        <label for="createFacilities" >name</label>
-      </div>
-      <button class="btn" (click)="createFacilities()">Добавить</button>
-    </form>
-  </div>
+<!--<div class="card-block" >-->
+<!--  <div class="card-block__body">-->
+<!--    <p class="p-title">Create facilities</p>-->
+<!--    <form [formGroup] = "formCreateFacilities">-->
+<!--      <div class="input-field" >-->
+<!--        <input-->
+<!--          formControlName="nameFacilities"-->
+<!--          placeholder="Input name"-->
+<!--          id="createFacilities"-->
+<!--          type="text"-->
+<!--          name="nameFacilities"-->
+<!--        />-->
+<!--        <label for="createFacilities" >name</label>-->
+<!--      </div>-->
+<!--      <button class="btn" (click)="createFacilities()">Добавить</button>-->
+<!--    </form>-->
+<!--  </div>-->
 
-</div>
+<!--</div>-->
 
 <form [formGroup]="formLocation">
-<div class="row removeMargin">
-  <div class="col m7 l8 ">
-    <div class="row">
-      <div class="col s12 l7 size-description">
+  <div class="row removeMargin">
+    <div class="col m7 l8 ">
+      <div class="row">
+        <div class="col s12 l7 size-description">
+          <div class="card-block" >
+            <p class="p-title">Description</p>
+            <div class="card-block__body">
+              <div class="input-field" >
+                <input
+                  formControlName="name"
+                  placeholder="Input name"
+                  id="name"
+                  type="text"
+                  name="name"
+                />
+                <label for="name" >Place name</label>
+              </div>
+
+              <div class="input-field" >
+                <input
+                  formControlName="address"
+                  placeholder="Input address"
+                  id="address"
+                  type="text"
+                  name="address"
+                />
+                <label for="address" >Address</label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col s12 l5 size-facilities" >
+          <div class="card-block" >
+            <p class="p-title">Facilities</p>
+            <div class="card-block__body facilities" style="display: flex; flex-flow: row wrap; align-content: space-between; justify-content: space-between;" >
+              <p class="facility badge" *ngFor="let facility of facilities; let i = index" [class.active]="facilititesActive[i] == true" (click)="checkFacility(i)">{{facility}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 size-review">
         <div class="card-block" >
-          <p class="p-title">Description</p>
+          <p class="p-title">Review</p>
+
           <div class="card-block__body">
-            <div class="input-field" >
-              <input
-                formControlName="name"
-                placeholder="Input name"
-                id="name"
-                type="text"
-                name="name"
-              />
-              <label for="name" >Place name</label>
-            </div>
+            <div class="row">
+              <div class="col s5 l3">
 
-            <div class="input-field" >
-              <input
-                formControlName="address"
-                placeholder="Input address"
-                id="address"
-                type="text"
-                name="address"
-              />
-              <label for="address" >Address</label>
-            </div>
+                <label>Rating</label>
+                <select #select class="browser-default" [(ngModel)]="rating" [ngModelOptions]="{standalone: true}">
+                  <option value="0" disabled selected >Put a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
 
+
+
+              </div>
+
+              <div class="col s12 l9">
+                <div class="input-field" >
+                  <mat-form-field appearance="outline">
+                    <mat-label>Input text</mat-label>
+                    <textarea matInput [(ngModel)]="reviews.reviewText" [ngModelOptions]="{standalone: true}"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+
+            </div>
           </div>
+
         </div>
       </div>
-      <div class="col s12 l5 size-facilities" >
-        <div class="card-block" >
-          <p class="p-title">Facilities</p>
-          <div class="card-block__body facilities" style="display: flex; flex-flow: row wrap; align-content: space-between; justify-content: space-between;" >
-            <p class="facility badge" *ngFor="let facility of facilities; let i = index" [class.active]="facilititesActive[i] == true" (click)="checkFacility(i)">{{facility}}</p>
-          </div>
-        </div>
-      </div>
+
     </div>
 
-    <div class="col s12 size-review">
+    <div class="col s12 m5 l4 size-opentime">
       <div class="card-block" >
-        <p class="p-title">Review</p>
+        <p class="p-title">Opening hours</p>
 
         <div class="card-block__body">
-          <div class="row">
-            <div class="col s5 l3">
-              <label>Rating</label>
-              <select class="browser-default" formControlName="rating">
-                <option value="" disabled selected>Put a rating</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-            </div>
-
-            <div class="col s12 l9">
-              <div class="input-field" >
-                <mat-form-field appearance="outline">
-                  <mat-label>Input text</mat-label>
-                  <textarea matInput [(ngModel)]="reviews.reviewText" [ngModelOptions]="{standalone: true}"></textarea>
-                </mat-form-field>
+          <div class="row" style="margin-bottom: 10px">
+            <p class="card-block__body-title col s5">Monday-Friday </p>
+            <div class="col s6">
+              <div class="switch">
+                <label>
+                  Close
+                  <input type="checkbox" [(ngModel)] = "days[0].closed" (click)="checked(0)" [ngModelOptions]="{standalone: true}">
+                  <span class="lever"></span>
+                  Open
+                </label>
               </div>
             </div>
-
           </div>
+          <div [style.display]="days[0].closed?'flex':'none'" >
+            <div class="select-time">
+              <label>Opening</label>
+              <select class="browser-default" [(ngModel)]="days[0].opening" [ngModelOptions]="{standalone: true}">
+                <option value="" disabled selected>Select time</option>
+                <option value="00:00">00:00</option>
+                <option value="01:00">01:00</option>
+                <option value="02:00">02:00</option>
+                <option value="03:00">03:00</option>
+                <option value="04:00">04:00</option>
+                <option value="05:00">05:00</option>
+                <option value="06:00">06:00</option>
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+              </select>
+            </div>
+            <div class="select-time">
+              <label>Сlosing</label>
+              <select class="browser-default" [(ngModel)]="days[0].closing" [ngModelOptions]="{standalone: true}">
+                <option value="" disabled selected>Select time</option>
+                <option value="00:00">00:00</option>
+                <option value="01:00">01:00</option>
+                <option value="02:00">02:00</option>
+                <option value="03:00">03:00</option>
+                <option value="04:00">04:00</option>
+                <option value="05:00">05:00</option>
+                <option value="06:00">06:00</option>
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+              </select>
+            </div>
+          </div>
+
+
+
         </div>
+        <div class="card-block__body">
+          <div class="row" style="margin-bottom: 10px">
+            <p class="card-block__body-title col s5">Saturday</p>
+            <div class="col s6">
+              <div class="switch">
+                <label>
+                  Close
+                  <input type="checkbox" [(ngModel)] = "days[1].closed" (click)="checked(1)" [ngModelOptions]="{standalone: true}">
+                  <span class="lever"></span>
+                  Open
+                </label>
+              </div>
+            </div>
+          </div>
+          <div [style.display]="days[1].closed?'flex':'none'" >
+            <div class="select-time">
+              <label>Opening</label>
+              <select class="browser-default" [(ngModel)]="days[1].opening" [ngModelOptions]="{standalone: true}">
+                <option value="" disabled selected>Select time</option>
+                <option value="00:00">00:00</option>
+                <option value="01:00">01:00</option>
+                <option value="02:00">02:00</option>
+                <option value="03:00">03:00</option>
+                <option value="04:00">04:00</option>
+                <option value="05:00">05:00</option>
+                <option value="06:00">06:00</option>
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+              </select>
+            </div>
+            <div class="select-time">
+              <label>Сlosing</label>
+              <select class="browser-default" [(ngModel)]="days[1].closing" [ngModelOptions]="{standalone: true}">
+                <option value="" disabled selected>Select time</option>
+                <option value="00:00">00:00</option>
+                <option value="01:00">01:00</option>
+                <option value="02:00">02:00</option>
+                <option value="03:00">03:00</option>
+                <option value="04:00">04:00</option>
+                <option value="05:00">05:00</option>
+                <option value="06:00">06:00</option>
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+              </select>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="card-block__body">
+          <div class="row" style="margin-bottom: 10px">
+            <p class="card-block__body-title col s5">Sunday</p>
+            <div class="col s6">
+              <div class="switch">
+                <label>
+                  Close
+                  <input type="checkbox" [(ngModel)] = "days[2].closed" (click)="checked(2)" [ngModelOptions]="{standalone: true}">
+                  <span class="lever"></span>
+                  Open
+                </label>
+              </div>
+            </div>
+          </div>
+          <div [style.display]="days[2].closed?'flex':'none'" >
+            <div class="select-time">
+              <label>Opening</label>
+              <select class="browser-default" [(ngModel)]="days[2].opening" [ngModelOptions]="{standalone: true}">
+                <option value="" disabled selected>Select time</option>
+                <option value="00:00">00:00</option>
+                <option value="01:00">01:00</option>
+                <option value="02:00">02:00</option>
+                <option value="03:00">03:00</option>
+                <option value="04:00">04:00</option>
+                <option value="05:00">05:00</option>
+                <option value="06:00">06:00</option>
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+              </select>
+            </div>
+            <div class="select-time">
+              <label>Сlosing</label>
+              <select class="browser-default" [(ngModel)]="days[2].closing" [ngModelOptions]="{standalone: true}">
+                <option value="" disabled selected>Select time</option>
+                <option value="00:00">00:00</option>
+                <option value="01:00">01:00</option>
+                <option value="02:00">02:00</option>
+                <option value="03:00">03:00</option>
+                <option value="04:00">04:00</option>
+                <option value="05:00">05:00</option>
+                <option value="06:00">06:00</option>
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+              </select>
+            </div>
+          </div>
+
+
+
+        </div>
+
 
       </div>
     </div>
 
-  </div>
-
-  <div class="col s12 m5 l4 size-opentime">
-    <div class="card-block" >
-      <p class="p-title">Opening hours</p>
-
-      <div class="card-block__body">
-        <div class="row" style="margin-bottom: 10px">
-          <p class="card-block__body-title col s5">Monday-Friday </p>
-          <div class="col s6">
-            <div class="switch">
-              <label>
-                Close
-                <input type="checkbox" [(ngModel)] = "days[0].closed" (click)="checked(0)" [ngModelOptions]="{standalone: true}">
-                <span class="lever"></span>
-                Open
-              </label>
-            </div>
-          </div>
+    <div class="col s12">
+      <div class="card-block">
+        <div class="card-block__body publish">
+          <button class="btn" [disabled]="formLocation.invalid || formLocation.disabled" (click)="Publish()">Publish</button>
         </div>
-        <div [style.display]="days[0].closed?'flex':'none'" >
-          <div class="select-time">
-            <label>Opening</label>
-            <select class="browser-default" [(ngModel)]="days[0].opening" [ngModelOptions]="{standalone: true}">
-              <option value="" disabled selected>Select time</option>
-              <option value="00:00">00:00</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-            </select>
-          </div>
-          <div class="select-time">
-            <label>Сlosing</label>
-            <select class="browser-default" [(ngModel)]="days[0].closing" [ngModelOptions]="{standalone: true}">
-              <option value="" disabled selected>Select time</option>
-              <option value="00:00">00:00</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-            </select>
-          </div>
-        </div>
-
-
-
-      </div>
-      <div class="card-block__body">
-        <div class="row" style="margin-bottom: 10px">
-          <p class="card-block__body-title col s5">Saturday</p>
-          <div class="col s6">
-            <div class="switch">
-              <label>
-                Close
-                <input type="checkbox" [(ngModel)] = "days[1].closed" (click)="checked(1)" [ngModelOptions]="{standalone: true}">
-                <span class="lever"></span>
-                Open
-              </label>
-            </div>
-          </div>
-        </div>
-        <div [style.display]="days[1].closed?'flex':'none'" >
-          <div class="select-time">
-            <label>Opening</label>
-            <select class="browser-default" [(ngModel)]="days[1].opening" [ngModelOptions]="{standalone: true}">
-              <option value="" disabled selected>Select time</option>
-              <option value="00:00">00:00</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-            </select>
-          </div>
-          <div class="select-time">
-            <label>Сlosing</label>
-            <select class="browser-default" [(ngModel)]="days[1].closing" [ngModelOptions]="{standalone: true}">
-              <option value="" disabled selected>Select time</option>
-              <option value="00:00">00:00</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-            </select>
-          </div>
-        </div>
-
-
-
-      </div>
-      <div class="card-block__body">
-        <div class="row" style="margin-bottom: 10px">
-          <p class="card-block__body-title col s5">Sunday</p>
-          <div class="col s6">
-            <div class="switch">
-              <label>
-                Close
-                <input type="checkbox" [(ngModel)] = "days[2].closed" (click)="checked(2)" [ngModelOptions]="{standalone: true}">
-                <span class="lever"></span>
-                Open
-              </label>
-            </div>
-          </div>
-        </div>
-        <div [style.display]="days[2].closed?'flex':'none'" >
-          <div class="select-time">
-            <label>Opening</label>
-            <select class="browser-default" [(ngModel)]="days[2].opening" [ngModelOptions]="{standalone: true}">
-              <option value="" disabled selected>Select time</option>
-              <option value="00:00">00:00</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-            </select>
-          </div>
-          <div class="select-time">
-            <label>Сlosing</label>
-            <select class="browser-default" [(ngModel)]="days[2].closing" [ngModelOptions]="{standalone: true}">
-              <option value="" disabled selected>Select time</option>
-              <option value="00:00">00:00</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-            </select>
-          </div>
-        </div>
-
-
-
-      </div>
-
-
-    </div>
-  </div>
-
-  <div class="col s12">
-    <div class="card-block">
-      <div class="card-block__body publish">
-        <button class="btn" [disabled]="formLocation.invalid || formLocation.disabled" (click)="Publish()">Publish</button>
       </div>
     </div>
-  </div>
 
-</div>
+  </div>
 
 </form>
 
