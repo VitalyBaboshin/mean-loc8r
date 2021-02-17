@@ -39,6 +39,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       }),
       error => {
+        M.toast({html: error.error.errors[0].param + ': ' + error.error.errors[0].msg});
         M.toast({html: error.error.message});
         this.form.reset();
       }
