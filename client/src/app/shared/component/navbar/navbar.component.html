@@ -1,20 +1,24 @@
-
 <nav class="navbar-default">
   <div class="nav-wrapper container">
 
     <a routerLink="/" class="brand-logo navbar-brand">Loc8r</a>
-    <ul id="nav-mobile" class="right link-size">
+    <ul id="nav-mobile" class="right link-size" style="display: flex">
 
       <li routerLinkActive="active" class="about-nodropdown">
         <a routerLink="/about">About</a>
       </li>
-      
-      <li [hidden]="userName" class="dropdown-visible">
-        <a routerLink="/">Home</a>
-      </li>
-      <li [hidden]="userName" class="dropdown-visible">
-        <a routerLink="/about">About</a>
-      </li>
+
+      <div [hidden]="userName">
+        <li class="dropdown-visible">
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="dropdown-visible">
+          <a routerLink="/about">About</a>
+        </li>
+      </div>
+
+
+
       <li [hidden]="userName" routerLinkActive="active">
         <a routerLink="/auth">Sign in</a>
       </li>
@@ -54,6 +58,3 @@
 
 
 </ng-template>
-
-
-
