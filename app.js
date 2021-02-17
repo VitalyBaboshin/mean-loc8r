@@ -5,9 +5,29 @@ const config = require('config');
 //Подключаем пакет mongoose что бы подключится к mongoDB
 const mongoose = require('mongoose');
 const path = require('path');
+const https = require('https');
+const http = require('http');
+const fs = require('fs');
+
+//For https SSL
+const options = {
+    key: fs.readFileSync('config/private.key'),
+    cert: fs.readFileSync('config/certificate.crt')
+};
 
 //Переменная app результат работы функции express(), то есть это наш будущий сервер
 const app = express();
+
+app.use (function (req, res, next) {
+    if (req.secure) {
+        // request was via https, so do no special handling
+        next();
+    } else {
+        // request was via http, so redirect to https
+        res.redirect('https://' + req.headers.host + req.url);
+    }
+});
+
 //body->json
 app.use(express.json({ extended: true}));
 
@@ -32,7 +52,9 @@ async function start() {
             useUnifiedTopology: true,
             useCreateIndex: true
         })
-        app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`))
+        http.createServer(app).listen(80, () => console.log('App has been started on port 80'));
+        https.createServer(options, app).listen(443, () => console.log('App has been started on port 443'));
+        // app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`))
     } catch (e) {
         console.log('Server Error', e.message)
         process.exit(1)

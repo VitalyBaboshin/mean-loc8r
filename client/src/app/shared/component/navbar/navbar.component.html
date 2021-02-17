@@ -8,10 +8,17 @@
       <li routerLinkActive="active" class="about-nodropdown">
         <a routerLink="/about">About</a>
       </li>
-
+      
+      <li [hidden]="userName" class="dropdown-visible">
+        <a routerLink="/">Home</a>
+      </li>
+      <li [hidden]="userName" class="dropdown-visible">
+        <a routerLink="/about">About</a>
+      </li>
       <li [hidden]="userName" routerLinkActive="active">
         <a routerLink="/auth">Sign in</a>
       </li>
+
 
       <li>
         <a #dropdown
